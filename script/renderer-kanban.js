@@ -29,9 +29,4 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.getElementById("cancel").addEventListener("click", function (e) {
         window.api.send('quit', 'data')
    });
-
-
-
-
-
 })

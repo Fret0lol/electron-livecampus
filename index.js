@@ -110,3 +110,23 @@ ipcMain.on('list:getTasks', (event) => {
     event.sender.send('list:getTasks', data)
   })
 })
+
+if (process.env.NODE_ENV !== 'production') {
+  menu.push({
+    label: 'Developer Tools',
+    submenu: [
+      {
+        label: 'Toggle DevTools',
+        accelerator: process.platform ==='darwin' ? 'Command+I' : 'Ctrl+I',
+
+        click(item, focusedWindow) {
+          focusedWindow.webContents.toggleDevTools()
+        }
+      }, 
+      {
+        role: 'reload',
+        accelerator:'F5'
+      }
+    ]
+  })
+}

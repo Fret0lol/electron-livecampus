@@ -70,8 +70,12 @@ ipcRenderer.on('list:getAll', (event, lists) => {
                 }
             })
         })
+
+        document.querySelectorAll(".list-item").forEach(listEl => {
+            if(listEl.querySelectorAll("li").length === 1){
+                listEl.innerHTML += "<p class='no-task'>No task<p>"
+            }
+        })
     });
-
-
 });
 
