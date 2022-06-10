@@ -5,7 +5,7 @@ class Task {
 
   getTasks() {
     return new Promise((resolve, reject) => {
-      this.db.all('SELECT * FROM tasks', (err, rows) => {
+      this.db.all('SELECT * FROM Task', (err, rows) => {
         if (err) {
           reject(err);
         } else {
@@ -17,7 +17,7 @@ class Task {
 
   getTask(id) {
     return new Promise((resolve, reject) => {
-      this.db.get('SELECT * FROM tasks WHERE id = ?', id, (err, row) => {
+      this.db.get('SELECT * FROM Task WHERE id = ?', id, (err, row) => {
         if (err) {
           reject(err);
         } else {
@@ -29,7 +29,7 @@ class Task {
 
   createTask(task) {
     return new Promise((resolve, reject) => {
-      this.db.run('INSERT INTO tasks (title, rank, list_id) VALUES (?, ?, ?)', task.title, task.rank, task.list_id, (err) => {
+      this.db.run('INSERT INTO Task (title, rank, list_id) VALUES (?, ?, ?)', task.title, task.rank, task.list_id, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -41,7 +41,7 @@ class Task {
 
   updateTask(task) {
     return new Promise((resolve, reject) => {
-      this.db.run('UPDATE tasks SET title = ?, rank = ?, list_id = ? WHERE id = ?', task.title, task.rank, task.list_id, task.id, (err) => {
+      this.db.run('UPDATE Task SET title = ?, rank = ?, list_id = ? WHERE id = ?', task.title, task.rank, task.list_id, task.id, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -53,7 +53,7 @@ class Task {
 
   deleteTask(id) {
     return new Promise((resolve, reject) => {
-      this.db.run('DELETE FROM tasks WHERE id = ?', id, (err) => {
+      this.db.run('DELETE FROM Task WHERE id = ?', id, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -62,5 +62,6 @@ class Task {
       });
     });
   }
-
 }
+
+module.exports = Task;

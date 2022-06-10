@@ -5,7 +5,7 @@ class List {
 
   getLists() {
     return new Promise((resolve, reject) => {
-      this.db.all('SELECT * FROM lists', (err, rows) => {
+      this.db.all('SELECT * FROM List', (err, rows) => {
         if (err) {
           reject(err);
         } else {
@@ -17,7 +17,7 @@ class List {
 
   getList(id) {
     return new Promise((resolve, reject) => {
-      this.db.get('SELECT * FROM lists WHERE id = ?', id, (err, row) => {
+      this.db.get('SELECT * FROM List WHERE id = ?', id, (err, row) => {
         if (err) {
           reject(err);
         } else {
@@ -29,7 +29,7 @@ class List {
 
   createList(list) {
     return new Promise((resolve, reject) => {
-      this.db.run('INSERT INTO lists (title) VALUES (?)', list.title, (err) => {
+      this.db.run('INSERT INTO List (title) VALUES (?)', list.title, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -41,7 +41,7 @@ class List {
 
   updateList(list) {
     return new Promise((resolve, reject) => {
-      this.db.run('UPDATE lists SET title = ? WHERE id = ?', list.name, list.id, (err) => {
+      this.db.run('UPDATE List SET title = ? WHERE id = ?', list.name, list.id, (err) => {
         if (err) {
           reject(err);
         } else {
@@ -53,7 +53,7 @@ class List {
 
   deleteList(id) {
     return new Promise((resolve, reject) => {
-      this.db.run('DELETE FROM lists WHERE id = ?', id, (err) => {
+      this.db.run('DELETE FROM List WHERE id = ?', id, (err) => {
         if (err) {
           reject(err);
         } else {
