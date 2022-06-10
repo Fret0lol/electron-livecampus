@@ -11,20 +11,17 @@
     <label for="title">Title</label>
     <input type="text" id="title" placeholder="new title">
     <br>
-    <label for="description">Description</label>
-    <TEXTAREA name="description" id="description" rows=4 cols=40 placeholder="type a description"></TEXTAREA>
-    <br>
     <label for="task-select">Assign to</label>
     <select name="tasks" id="task-select">
-        <option value="todo">TODO</option>
-        <option value="in progress">IN PROGRESS</option>
-        <option value="review">REVIEW</option>
-        <option value="done">DONE</option>
+        <option value="1">TODO</option>
+        <option value="2">IN PROGRESS</option>
+        <option value="3">REVIEW</option>
+        <option value="4">DONE</option>
     </select>
     <br>
 
     <button id="cancel" type="cancel">Cancel</button>
-    <button type="submit">Create</button>
+    <button id="submit" type="submit">Create</button>
   </form>
 
   <script src="../script/renderer-kanban.js"></script>

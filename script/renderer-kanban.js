@@ -1,20 +1,25 @@
 window.addEventListener('DOMContentLoaded', async () => {
-    const form = document.querySelector('form')
-    const title = document.querySelector('#title')
-    const desc = document.querySelector('#description')
+    const taskTitle = document.querySelector('#title')
     const taskState = document.querySelector('#task-select')
 
+    let task = null
 
-    form.addEventListener('submit', submitForm)
+
+    document.getElementById("submit").addEventListener("click", function (e) {
+        task = { title: taskTitle.value, rank: 0,  list_id: taskState.value}
+        window.api.send('task:add', task)
+    });
+    
     function submitForm(e) {
         e.preventDefault();
-        data = [title.value, desc.value, taskState.value]
-        addItem(data)
+        task = [title.value, desc.value, taskState.value]
+        addItem(task)
     }
 
-    function addItem(data) {
-        if (data) {
-          window.api.send("item:add", data)
+    function addItem(task) {
+        console.log(task)
+        if (task) {
+          window.api.send("item:add", task)
         } else {
           console.log('Empty data');
         }

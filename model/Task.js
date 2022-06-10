@@ -27,6 +27,18 @@ class Task {
     });
   }
 
+  getTasksByList(id) {
+    return new Promise((resolve, reject) => {
+      this.db.all('SELECT * FROM Task WHERE list_id = ?', id, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+
   createTask(task) {
     return new Promise((resolve, reject) => {
       this.db.run('INSERT INTO Task (title, rank, list_id) VALUES (?, ?, ?)', task.title, task.rank, task.list_id, (err) => {

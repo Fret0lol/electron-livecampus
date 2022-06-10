@@ -3,9 +3,11 @@ const { app, BrowserWindow, Menu, ipcMain, dialog, Notification, getCurrentWindo
 const path = require('path')
 const database = require('./model/Database')
 const Task = require('./model/Task')
+const List = require('./model/List')
 const db = new database('database.db')
 let newKanban = null
 const tasks = new Task(db)
+const lists = new List(db)
 const menu = [
   {
     label : 'File',
@@ -42,7 +44,6 @@ const createWindow = () => {
 }
 
 
-
 app.whenReady().then(() => {
   createWindow()
   const mainMenu  = Menu.buildFromTemplate(menu)
@@ -62,6 +63,7 @@ const createNewWindow = () => {
 }
 
 
+
 ipcMain.on('quit', (e, data) => {
   newKanban.close()
 })
@@ -72,16 +74,24 @@ ipcMain.on('task:add', (e , data) => {
     body: 'Bravo vous avez ajouté un task',
     //icon: 'assets/check_one_icon.png'
   })
-  tasks.addTask(data)
-  .then(
-    () => {
-      w.webContents.send('item:add', data)
-      w.reload()
-    },
-    error => console.log(error)
-  )
+  
+  tasks.getTasksByList(data.list_id).then(item => {
+    console.log(data.title, ' -> ', item.length+1 , ' -> ', data.list_id)
 
-  notif.show()
+    data.rank = item.length+1
+    tasks.createTask(data)
+    .then(
+      () => {
+        newKanban.close()
+      },
+      error => console.log(error)
+    )
+
+    notif.show()
+  })
+  
+  
+  
 })
 
 app.on('window-all-closed', () => {
