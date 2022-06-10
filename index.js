@@ -19,6 +19,10 @@ const menu = [
         }
       },
       {
+        role: 'reload',
+        accelerator:'F5'
+      },
+      {
         label: 'Quit',
         accelerator: 'CommandOrControl+Q',
         click() {
@@ -109,4 +113,8 @@ ipcMain.on('list:getTasks', (event) => {
   tasks.getTasks().then(data => {
     event.sender.send('list:getTasks', data)
   })
+})
+
+ipcMain.on('list:modify', (e, data) => {
+  console.log(data)
 })
