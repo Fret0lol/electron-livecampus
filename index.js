@@ -36,7 +36,7 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      
+
     }
   })
 
@@ -89,9 +89,9 @@ ipcMain.on('task:add', (e , data) => {
 
     notif.show()
   })
-  
-  
-  
+  tasks.getTasks().then(data => {
+    console.log(data)
+  })
 })
 
 app.on('window-all-closed', () => {
@@ -102,5 +102,11 @@ app.on('window-all-closed', () => {
 ipcMain.on('list:getAll', (event) => {
   lists.getLists().then(data => {
     event.sender.send('list:getAll', data)
+  })
+})
+
+ipcMain.on('list:getTasks', (event) => {
+  tasks.getTasks().then(data => {
+    event.sender.send('list:getTasks', data)
   })
 })
