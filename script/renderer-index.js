@@ -1,13 +1,27 @@
-let lists = document.querySelectorAll("ul")
+const { ipcRenderer } =  require('electron')
+ipcRenderer.send('list:getAll');
+
+let container = document.getElementById('container');
+
+ipcRenderer.on('list:getAll', (event, lists) => {
+    lists.forEach((list) => {
+        let listItem = document.createElement("div")
+        listItem.classList.add("list-item")
+        let listTitle = document.createElement("h3")
+        listTitle.innerText = list.title
+        listItem.appendChild(listTitle)
+        let listContent = document.createElement("ul")
+        listContent.classList.add("list-content")
+        listItem.appendChild(listContent)
+        container.appendChild(listItem)
+    });
+});
+
 
 const createTask = (name) => {
     return "<li>" + name + "<br/><button class='up'>⬆</button><button class='down'>⬇</button><button class='left'>⬅</button><button class='right'>➡</button><button class='close'>⨯</button></li>"
 }
 
-//populating (replace with db info)
-lists[0].innerHTML += createTask("Lavage")
-lists[0].innerHTML += createTask("Repassage")
-lists[2].innerHTML += createTask("Cuisine")
 
 document.querySelectorAll(".close").forEach(item => {
     item.addEventListener("click", e => {
