@@ -70,4 +70,28 @@ button:hover {
 
 .modify {
   width: 86px;
+}
+
+.no-task {
+  margin-top: 30px;
+  text-align: center;
+}
+
+form div {
+  margin-bottom: 3px;
+}
+form input, form select {
+  border: 2px solid #32474b;
+  font-family: "Roboto";
+  padding: 2px;
+  font-size: 16px;
+}
+form button {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-family: "Roboto";
+  padding: 3px;
+  margin-left: 0px;
+  font-size: 18px;
 }/*# sourceMappingURL=main.css.map */

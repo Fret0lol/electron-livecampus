@@ -75,7 +75,7 @@ ipcMain.on('quit', (e, data) => {
 ipcMain.on('task:add', (e , data) => {
   const notif = new Notification({
     title: 'Task ajouté',
-    body: 'Bravo vous avez ajouté un task',
+    body: 'Bravo vous avez ajouté une tâche',
     //icon: 'assets/check_one_icon.png'
   })
   
@@ -115,6 +115,28 @@ ipcMain.on('list:getTasks', (event) => {
   })
 })
 
+<<<<<<< HEAD
 ipcMain.on('list:modify', (e, data) => {
   console.log(data)
 })
+=======
+if (process.env.NODE_ENV !== 'production') {
+  menu.push({
+    label: 'Developer Tools',
+    submenu: [
+      {
+        label: 'Toggle DevTools',
+        accelerator: process.platform ==='darwin' ? 'Command+I' : 'Ctrl+I',
+
+        click(item, focusedWindow) {
+          focusedWindow.webContents.toggleDevTools()
+        }
+      }, 
+      {
+        role: 'reload',
+        accelerator:'F5'
+      }
+    ]
+  })
+}
+>>>>>>> b53b87f2f991679639fea82e90f5b4dd9506ecb4
