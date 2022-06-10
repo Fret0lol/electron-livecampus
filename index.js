@@ -30,7 +30,12 @@ const menu = [
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
-    height: 600
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      
+    }
   })
 
   win.loadFile('index.html')
@@ -81,4 +86,11 @@ ipcMain.on('task:add', (e , data) => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
+})
+
+// List
+ipcMain.on('list:getAll', (event) => {
+  lists.getLists().then(data => {
+    event.sender.send('list:getAll', data)
+  })
 })
