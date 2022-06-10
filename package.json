@@ -19,6 +19,8 @@
   "homepage": "https://github.com/Fret0lol/electron-livecampus#readme",
   "devDependencies": {
     "electron": "^19.0.4",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-reloader": "^1.2.3",
     "sqlite3": "^5.0.8"
   }
 }
