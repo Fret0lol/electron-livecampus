@@ -25,7 +25,8 @@ ipcRenderer.on('list:getAll', (event, lists) => {
     
         document.querySelectorAll(".close").forEach(item => {
             item.addEventListener("click", e => {
-                e.target.parentElement.remove()
+                // e.target.parentElement.remove()
+                ipcRenderer.send('list:deleteTask', {id: e.target.parentElement.id})
             })
         })
         
@@ -72,6 +73,9 @@ ipcRenderer.on('list:getAll', (event, lists) => {
         })
     });
 
-
+    ipcRenderer.on('list:deleteTask', (event, id) => {
+        let task = document.getElementById(id)
+        task.remove()
+    })
 });
 

@@ -10,12 +10,12 @@ const tasks = new Task(db)
 const lists = new List(db)
 const menu = [
   {
-    label : 'File',
-    submenu : [
+    label: 'File',
+    submenu: [
       {
         label: 'New item',
         click() {
-         newKanban = createNewWindow()
+          newKanban = createNewWindow()
         }
       },
       {
@@ -46,7 +46,7 @@ const createWindow = () => {
 
 app.whenReady().then(() => {
   createWindow()
-  const mainMenu  = Menu.buildFromTemplate(menu)
+  const mainMenu = Menu.buildFromTemplate(menu)
   Menu.setApplicationMenu(mainMenu)
 })
 
@@ -55,7 +55,7 @@ const createNewWindow = () => {
     width: 400,
     height: 400,
     webPreferences: {
-      preload:path.join(app.getAppPath(), 'script/preload-kanban.js')
+      preload: path.join(app.getAppPath(), 'script/preload-kanban.js')
     }
   })
   win.loadFile('template/formKanban.html')
@@ -68,24 +68,24 @@ ipcMain.on('quit', (e, data) => {
   newKanban.close()
 })
 
-ipcMain.on('task:add', (e , data) => {
+ipcMain.on('task:add', (e, data) => {
   const notif = new Notification({
     title: 'Task ajouté',
     body: 'Bravo vous avez ajouté un task',
     //icon: 'assets/check_one_icon.png'
   })
-  
-  tasks.getTasksByList(data.list_id).then(item => {
-    console.log(data.title, ' -> ', item.length+1 , ' -> ', data.list_id)
 
-    data.rank = item.length+1
+  tasks.getTasksByList(data.list_id).then(item => {
+    console.log(data.title, ' -> ', item.length + 1, ' -> ', data.list_id)
+
+    data.rank = item.length + 1
     tasks.createTask(data)
-    .then(
-      () => {
-        newKanban.close()
-      },
-      error => console.log(error)
-    )
+      .then(
+        () => {
+          newKanban.close()
+        },
+        error => console.log(error)
+      )
 
     notif.show()
   })
@@ -94,19 +94,39 @@ ipcMain.on('task:add', (e , data) => {
   })
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
-})
-
-// List
-ipcMain.on('list:getAll', (event) => {
-  lists.getLists().then(data => {
-    event.sender.send('list:getAll', data)
+ipcMain.on('list:deleteTask', (e, data) => {
+  console.log(data)
+  dialog.showMessageBox(getCurrentWindow, {
+    type: 'question',
+    buttons: ['Oui', 'Non'],
+    title: 'Supprimer une tâche',
+    message: 'Voulez-vous vraiment supprimer cette tâche ?'
+  }).then((response) => {
+    if (response.response === 0) {
+      tasks.deleteTask(data.id)
+        .then(
+          () => {
+            console.log('task deleted')
+            e.reply('list:deleteTask', data.id)
+          }
+        )
+    }
   })
-})
-
-ipcMain.on('list:getTasks', (event) => {
-  tasks.getTasks().then(data => {
-    event.sender.send('list:getTasks', data)
   })
-})
+
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit()
+  })
+
+  // List
+  ipcMain.on('list:getAll', (event) => {
+    lists.getLists().then(data => {
+      event.sender.send('list:getAll', data)
+    })
+  })
+
+  ipcMain.on('list:getTasks', (event) => {
+    tasks.getTasks().then(data => {
+      event.sender.send('list:getTasks', data)
+    })
+  })
