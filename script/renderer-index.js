@@ -1,7 +1,7 @@
 let lists = document.querySelectorAll("ul")
 
 const createTask = (name) => {
-    return "<li>" + name + "<button class='up'>⬆</button><button class='down'>⬇</button><button class='left'>⬅</button><button class='right'>➡</button><button class='close'>⨯</button></li>"
+    return "<li>" + name + "<br/><button class='up'>⬆</button><button class='down'>⬇</button><button class='left'>⬅</button><button class='right'>➡</button><button class='close'>⨯</button></li>"
 }
 
 //populating (replace with db info)
