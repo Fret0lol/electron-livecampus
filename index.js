@@ -3,10 +3,10 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 // Database
 const Database = require('./model/Database')
 const db = new Database('database.db')
-  // List
+// List
 const List = require('./model/List')
 const lists = new List(db)
-  // Task
+// Task
 const Task = require('./model/Task')
 const tasks = new Task(db)
 
@@ -17,7 +17,7 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      
+
     }
   })
 
@@ -27,6 +27,9 @@ const createWindow = () => {
 app.whenReady().then(() => {
   createWindow()
   lists.getLists().then(data => {
+    console.log(data)
+  })
+  tasks.getTasks().then(data => {
     console.log(data)
   })
 })
@@ -39,5 +42,11 @@ app.on('window-all-closed', () => {
 ipcMain.on('list:getAll', (event) => {
   lists.getLists().then(data => {
     event.sender.send('list:getAll', data)
+  })
+})
+
+ipcMain.on('list:getTasks', (event) => {
+  tasks.getTasks().then(data => {
+    event.sender.send('list:getTasks', data)
   })
 })
