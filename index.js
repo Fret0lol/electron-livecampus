@@ -115,11 +115,10 @@ ipcMain.on('list:getTasks', (event) => {
   })
 })
 
-<<<<<<< HEAD
 ipcMain.on('list:modify', (e, data) => {
   console.log(data)
 })
-=======
+
 if (process.env.NODE_ENV !== 'production') {
   menu.push({
     label: 'Developer Tools',
@@ -139,4 +138,3 @@ if (process.env.NODE_ENV !== 'production') {
     ]
   })
 }
->>>>>>> b53b87f2f991679639fea82e90f5b4dd9506ecb4
