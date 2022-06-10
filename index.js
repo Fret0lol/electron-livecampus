@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 
 // Database
 const Database = require('./model/Database')
@@ -13,7 +13,12 @@ const tasks = new Task(db)
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
-    height: 600
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      
+    }
   })
 
   win.loadFile('index.html')
@@ -28,4 +33,11 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
+})
+
+// List
+ipcMain.on('list:getAll', (event) => {
+  lists.getLists().then(data => {
+    event.sender.send('list:getAll', data)
+  })
 })
