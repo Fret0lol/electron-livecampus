@@ -8,7 +8,7 @@ ipcRenderer.on('list:getAll', (event, lists) => {
         let listItem = document.createElement("ul")
         listItem.classList.add("list-item")
         let listTitle = document.createElement("li")
-        listTitle.innerText = list.title
+        listTitle.innerHTML = "<h3>"+list.title+"</h3>"
         listTitle.classList.add("head")
         listItem.appendChild(listTitle)
         container.appendChild(listItem)
@@ -17,7 +17,7 @@ ipcRenderer.on('list:getAll', (event, lists) => {
     let listElements = document.querySelectorAll("ul")
 
     const createTask = (name) => {
-        return "<li>" + name + "<br/><button class='up'>⬆</button><button class='down'>⬇</button><button class='left'>⬅</button><button class='right'>➡</button><button class='close'>⨯</button></li>"
+        return "<li><p>" + name + "</p><button class='up'>⬆</button><button class='down'>⬇</button><button class='left'>⬅</button><button class='right'>➡</button><br/><button class='modify'>Modifier</button><button class='close'>⨯</button></li>"
     }
     
     listElements[0].innerHTML += createTask("Lavage")
