@@ -21,11 +21,9 @@ document.querySelectorAll(".close").forEach(item => {
 document.querySelectorAll(".up").forEach(item => {
     item.addEventListener("click", e => {
         let div = e.target.parentElement
-        let prev = div.previousSibling
-        console.log("a")
+        let prev = div.previousElementSibling
         if(prev !== null && prev.className !== "head"){
             div.parentElement.insertBefore(div, prev)
-            console.log("b")
         }
     })
 })
@@ -33,9 +31,31 @@ document.querySelectorAll(".up").forEach(item => {
 document.querySelectorAll(".down").forEach(item => {
     item.addEventListener("click", e => {
         let div = e.target.parentElement
-        let next = div.nextSibling
+        let next = div.nextElementSibling
         if(next !== null){
             div.parentElement.insertBefore(next, div)
+        }
+    })
+})
+
+document.querySelectorAll(".left").forEach(item => {
+    item.addEventListener("click", e => {
+        let div = e.target.parentElement
+        let list = div.parentElement
+        let prev = list.previousElementSibling
+        if(prev !== null){
+            prev.append(div)
+        }
+    })
+})
+
+document.querySelectorAll(".right").forEach(item => {
+    item.addEventListener("click", e => {
+        let div = e.target.parentElement
+        let list = div.parentElement
+        let next = list.nextElementSibling
+        if(next !== null){
+            next.append(div)
         }
     })
 })
