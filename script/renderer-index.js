@@ -3,13 +3,24 @@ ipcRenderer.send('list:getAll');
 
 let container = document.getElementById('container');
 
+const refreshUI = () => {
+    document.querySelectorAll(".no-task").forEach(el => el.remove())
+    document.querySelectorAll(".list-item").forEach(listEl => {
+        let listLength = listEl.querySelectorAll("li").length
+        listEl.querySelector("li:first-of-type span").innerHTML = " (" + (listLength - 1) + ")"
+        if(listLength === 1){
+            listEl.innerHTML += "<p class='no-task'>No task</p>"
+        }
+    })  
+}
+
 ipcRenderer.on('list:getAll', (event, lists) => {
     lists.forEach((list) => {
         let listItem = document.createElement("ul")
         listItem.classList.add("list-item")
         listItem.id = 'list-' + list.id
         let listTitle = document.createElement("li")
-        listTitle.innerHTML = "<h3>"+list.title+"</h3>"
+        listTitle.innerHTML = "<h3>"+list.title+"<span></span></h3>"
         listTitle.classList.add("head")
         listItem.appendChild(listTitle)
         container.appendChild(listItem)
@@ -70,12 +81,12 @@ ipcRenderer.on('list:getAll', (event, lists) => {
                 }
             })
         })
+       
+        refreshUI()
 
-        document.querySelectorAll(".list-item").forEach(listEl => {
-            if(listEl.querySelectorAll("li").length === 1){
-                listEl.innerHTML += "<p class='no-task'>No task<p>"
-            }
-        })
+        document.querySelectorAll("button").forEach(el => el.addEventListener("click", e =>{
+            refreshUI()  
+        }))
     });
 });
 

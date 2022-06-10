@@ -70,8 +70,8 @@ ipcMain.on('quit', (e, data) => {
 
 ipcMain.on('task:add', (e , data) => {
   const notif = new Notification({
-    title: 'Task ajouté',
-    body: 'Bravo vous avez ajouté une tâche',
+    title: 'Task added',
+    body: 'Congratulations, you added a new task',
     //icon: 'assets/check_one_icon.png'
   })
   

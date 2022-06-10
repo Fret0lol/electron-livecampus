@@ -40,8 +40,13 @@ ul {
     box-shadow: 0 3px 11px 0 rgba(0, 0, 0, 0.1), 0 4px 15px 0 rgba(0, 0, 0, 0.1);
     background-color: $grey1;
     border-radius: 5px;
-    width: calc(25vw - 25px);
+    width: 175px;
+    min-width: 175px;
     height: fit-content;
+
+    h3{
+        font-size: 16px;
+    }
 }
 
 li:not(:first-of-type){
