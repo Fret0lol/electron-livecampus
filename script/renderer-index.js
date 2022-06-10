@@ -1,11 +1,19 @@
 const { ipcRenderer } =  require('electron')
 ipcRenderer.send('list:getAll');
 
-let listsElement = document.querySelectorAll("ul")
+let container = document.getElementById('container');
 
 ipcRenderer.on('list:getAll', (event, lists) => {
-    lists.forEach((list, index) => {
-        listsElement[index].innerHTML = "<li>" + list.id + " | " + list.title + "<button class='up'>⬆</button><button class='down'>⬇</button><button class='left'>⬅</button><button class='right'>➡</button><button class='close'>⨯</button></li>"
+    lists.forEach((list) => {
+        let listItem = document.createElement("div")
+        listItem.classList.add("list-item")
+        let listTitle = document.createElement("h3")
+        listTitle.innerText = list.title
+        listItem.appendChild(listTitle)
+        let listContent = document.createElement("ul")
+        listContent.classList.add("list-content")
+        listItem.appendChild(listContent)
+        container.appendChild(listItem)
     });
 });
 
