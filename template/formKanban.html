@@ -4,20 +4,25 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../assets/main.css" rel="stylesheet">
   <title>Create a new task</title>
 </head>
 <body>
   <form>
-    <label for="title">Title</label>
-    <input type="text" id="title" placeholder="new title">
+    <div>
+      <label for="title">Title: </label>
+      <input type="text" id="title" placeholder="New title">
+    </div>
     <br>
-    <label for="task-select">Assign to</label>
-    <select name="tasks" id="task-select">
-        <option value="1">TODO</option>
-        <option value="2">IN PROGRESS</option>
-        <option value="3">REVIEW</option>
-        <option value="4">DONE</option>
-    </select>
+    <div>
+      <label for="task-select">Assign to</label>
+      <select name="tasks" id="task-select">
+          <option value="1">TODO</option>
+          <option value="2">IN PROGRESS</option>
+          <option value="3">REVIEW</option>
+          <option value="4">DONE</option>
+      </select>
+    </div>
     <br>
 
     <button id="cancel" type="cancel">Cancel</button>

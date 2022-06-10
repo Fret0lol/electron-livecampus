@@ -19,6 +19,10 @@ const menu = [
         }
       },
       {
+        role: 'reload',
+        accelerator:'F5'
+      },
+      {
         label: 'Quit',
         accelerator: 'CommandOrControl+Q',
         click() {
@@ -70,8 +74,8 @@ ipcMain.on('quit', (e, data) => {
 
 ipcMain.on('task:add', (e, data) => {
   const notif = new Notification({
-    title: 'Task ajouté',
-    body: 'Bravo vous avez ajouté un task',
+    title: 'Task added',
+    body: 'Congratulations, you added a new task',
     //icon: 'assets/check_one_icon.png'
   })
 
@@ -130,3 +134,27 @@ ipcMain.on('list:deleteTask', (e, data) => {
       event.sender.send('list:getTasks', data)
     })
   })
+
+ipcMain.on('list:modify', (e, data) => {
+  console.log(data)
+})
+
+if (process.env.NODE_ENV !== 'production') {
+  menu.push({
+    label: 'Developer Tools',
+    submenu: [
+      {
+        label: 'Toggle DevTools',
+        accelerator: process.platform ==='darwin' ? 'Command+I' : 'Ctrl+I',
+
+        click(item, focusedWindow) {
+          focusedWindow.webContents.toggleDevTools()
+        }
+      }, 
+      {
+        role: 'reload',
+        accelerator:'F5'
+      }
+    ]
+  })
+}
