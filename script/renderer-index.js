@@ -29,6 +29,12 @@ ipcRenderer.on('list:getAll', (event, lists) => {
             e.target.parentElement.remove()
         })
     })
+
+    document.querySelectorAll(".modify").forEach(item => {
+        item.addEventListener("click", e => {
+            ipcRenderer.send(channel, data)
+        })
+    })
     
     document.querySelectorAll(".up").forEach(item => {
         item.addEventListener("click", e => {
