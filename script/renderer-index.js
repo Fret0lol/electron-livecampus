@@ -9,7 +9,7 @@ ipcRenderer.on('list:getAll', (event, lists) => {
         listItem.classList.add("list-item")
         listItem.id = 'list-' + list.id
         let listTitle = document.createElement("li")
-        listTitle.innerText = list.title
+        listTitle.innerHTML = "<h3>"+list.title+"</h3>"
         listTitle.classList.add("head")
         listItem.appendChild(listTitle)
         container.appendChild(listItem)

@@ -15,7 +15,7 @@ $grey1: #F1F3FA;
 
 body{
     font-family: 'Roboto';
-    font-size: 16px;
+    font-size: 18px;
     background-color: $grey1;
     height: 100vh;
     width: 100vw;
@@ -50,15 +50,27 @@ li:not(:first-of-type){
     border-radius: 5px;
     min-height: 30px;
     padding: 10px;
+
+    p{
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
 }
 
 button{
     background-color: white;
     border: 2px solid $main;
     margin: 5px;
+    width: 22px;
+    font-size: 12px;
+    padding: 0px;
 
     &:hover{
         background-color: $main;
         color: white;
     }
+}
+
+.modify{
+    width: 86px;
 }
