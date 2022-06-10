@@ -1,7 +1,11 @@
 const { app, BrowserWindow, Menu, ipcMain, dialog, Notification, getCurrentWindow } = require('electron')
 
 const path = require('path')
+const database = require('./model/Database')
+const Task = require('./model/Task')
+const db = new database('database.db')
 let newKanban = null
+const tasks = new Task(db)
 const menu = [
   {
     label : 'File',
@@ -55,6 +59,24 @@ const createNewWindow = () => {
 
 ipcMain.on('quit', (e, data) => {
   newKanban.close()
+})
+
+ipcMain.on('task:add', (e , data) => {
+  const notif = new Notification({
+    title: 'Task ajouté',
+    body: 'Bravo vous avez ajouté un task',
+    //icon: 'assets/check_one_icon.png'
+  })
+  tasks.addTask(data)
+  .then(
+    () => {
+      w.webContents.send('item:add', data)
+      w.reload()
+    },
+    error => console.log(error)
+  )
+
+  notif.show()
 })
 
 app.on('window-all-closed', () => {
