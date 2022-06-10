@@ -4,23 +4,12 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <link href="assets/main.css" rel="stylesheet">
     <title>Kanban</title>
   </head>
   <body>
     <h1>Tableau Kanban</h1>
-    <div class="container">
-      <ul>
-        <li class="head">TODO</li>
-      </ul>
-      <ul>
-        <li class="head">IN PROGRESS</li>
-      </ul>
-      <ul>
-        <li class="head">REVIEW</li>
-      </ul>
-      <ul>
-        <li class="head">DONE</li>
-      </ul>
+    <div class="container" id="container">
     </div>
     <script src="./script/renderer-index.js"></script>
   </body>
