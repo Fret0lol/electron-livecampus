@@ -53,6 +53,8 @@ ipcRenderer.on('list:getAll', (event, lists) => {
                 let div = e.target.parentElement
                 let prev = div.previousElementSibling
                 if(prev !== null && prev.className !== "head"){
+                    ipcRenderer.send('task:up', div.id)
+                    ipcRenderer.send('task:down', prev.id)
                     div.parentElement.insertBefore(div, prev)
                 }
             })
@@ -63,6 +65,8 @@ ipcRenderer.on('list:getAll', (event, lists) => {
                 let div = e.target.parentElement
                 let next = div.nextElementSibling
                 if(next !== null){
+                    ipcRenderer.send('task:down', div.id)
+                    ipcRenderer.send('task:up', next.id)
                     div.parentElement.insertBefore(next, div)
                 }
             })
@@ -74,6 +78,7 @@ ipcRenderer.on('list:getAll', (event, lists) => {
                 let list = div.parentElement
                 let prev = list.previousElementSibling
                 if(prev !== null){
+                    ipcRenderer.send('task:left', div.id)
                     prev.append(div)
                 }
             })
@@ -85,6 +90,7 @@ ipcRenderer.on('list:getAll', (event, lists) => {
                 let list = div.parentElement
                 let next = list.nextElementSibling
                 if(next !== null){
+                    ipcRenderer.send('task:right', div.id)
                     next.append(div)
                 }
             })
@@ -98,7 +104,7 @@ ipcRenderer.on('list:getAll', (event, lists) => {
     });
 });
 
-    ipcRenderer.on('list:deleteTask', (event, id) => {
-        let task = document.getElementById(id)
-        task.remove()
-    })
+ipcRenderer.on('list:deleteTask', (event, id) => {
+    let task = document.getElementById(id)
+    task.remove()
+})

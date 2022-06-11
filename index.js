@@ -8,6 +8,8 @@ const db = new database('database.db')
 let newKanban = null
 const tasks = new Task(db)
 const lists = new List(db)
+let w
+
 const menu = [
   {
     label: 'File',
@@ -45,11 +47,12 @@ const createWindow = () => {
   })
 
   win.loadFile('index.html')
+  return win
 }
 
 
 app.whenReady().then(() => {
-  createWindow()
+  w = createWindow()
   const mainMenu = Menu.buildFromTemplate(menu)
   Menu.setApplicationMenu(mainMenu)
 })
@@ -72,6 +75,24 @@ ipcMain.on('quit', (e, data) => {
   newKanban.close()
 })
 
+ipcMain.on('task:up', (e, data) => {
+  tasks.upTask(data)
+})
+
+ipcMain.on('task:down', (e, data) => {
+  tasks.downTask(data)
+})
+
+ipcMain.on('task:right', (e, data) => {
+  tasks.downRightTasks(data)
+  tasks.rightTask(data)
+})
+
+ipcMain.on('task:left', (e, data) => {
+  tasks.downLeftTasks(data)
+  tasks.leftTask(data)
+})
+
 ipcMain.on('task:add', (e, data) => {
   const notif = new Notification({
     title: 'Task added',
@@ -87,6 +108,7 @@ ipcMain.on('task:add', (e, data) => {
       .then(
         () => {
           newKanban.close()
+          w.reload()
         },
         error => console.log(error)
       )
@@ -112,6 +134,7 @@ ipcMain.on('list:deleteTask', (e, data) => {
           () => {
             console.log('task deleted')
             e.reply('list:deleteTask', data.id)
+            w.reload()
           }
         )
     }
