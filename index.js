@@ -6,6 +6,7 @@ const Task = require('./model/Task')
 const List = require('./model/List')
 const db = new database('database.db')
 let newKanban = null
+let updateKanban = null
 const tasks = new Task(db)
 const lists = new List(db)
 let w
@@ -22,7 +23,7 @@ const menu = [
       },
       {
         role: 'reload',
-        accelerator:'F5'
+        accelerator: 'F5'
       },
       {
         label: 'Quit',
@@ -42,7 +43,6 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-
     }
   })
 
@@ -67,6 +67,20 @@ const createNewWindow = () => {
   })
   win.loadFile('template/formKanban.html')
   return win
+}
+
+
+const createUpdateWindow = () => {
+  const winUpdate = new BrowserWindow({
+    width: 400,
+    height: 400,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
+  })
+  winUpdate.loadFile('template/formUpdateKanban.html')
+  return winUpdate
 }
 
 
@@ -139,27 +153,44 @@ ipcMain.on('list:deleteTask', (e, data) => {
         )
     }
   })
-  })
+})
 
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
-  })
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit()
+})
 
-  // List
-  ipcMain.on('list:getAll', (event) => {
-    lists.getLists().then(data => {
-      event.sender.send('list:getAll', data)
-    })
+// List
+ipcMain.on('list:getAll', (event) => {
+  lists.getLists().then(data => {
+    event.sender.send('list:getAll', data)
   })
+})
 
-  ipcMain.on('list:getTasks', (event) => {
-    tasks.getTasks().then(data => {
-      event.sender.send('list:getTasks', data)
-    })
+ipcMain.on('list:getTasks', (event) => {
+  tasks.getTasks().then(data => {
+    event.sender.send('list:getTasks', data)
   })
+})
 
+let updateTaskId = null
 ipcMain.on('list:modify', (e, data) => {
+  updateTaskId = data
+  updateKanban = createUpdateWindow()
+})
+
+ipcMain.on('task:update', (e, data) => {
+  tasks.getTask(updateTaskId).then(item => {
+    e.sender.send('task:update', item)
+  })
+})
+
+ipcMain.on('task:update:u', (e, data) => {
   console.log(data)
+  tasks.updateTask(data).then((res) => {
+    console.log(res)
+    updateKanban.close()
+    w.reload()
+  })
 })
 
 if (process.env.NODE_ENV !== 'production') {
@@ -168,15 +199,15 @@ if (process.env.NODE_ENV !== 'production') {
     submenu: [
       {
         label: 'Toggle DevTools',
-        accelerator: process.platform ==='darwin' ? 'Command+I' : 'Ctrl+I',
+        accelerator: process.platform === 'darwin' ? 'Command+I' : 'Ctrl+I',
 
         click(item, focusedWindow) {
           focusedWindow.webContents.toggleDevTools()
         }
-      }, 
+      },
       {
         role: 'reload',
-        accelerator:'F5'
+        accelerator: 'F5'
       }
     ]
   })
