@@ -146,6 +146,11 @@ ipcMain.on('list:deleteTask', (e, data) => {
       tasks.deleteTask(data.id)
         .then(
           () => {
+            const notifDelete = new Notification({
+              title: 'Task deleted',
+              body: 'The task has been deleted'
+            })
+            notifDelete.show()
             console.log('task deleted')
             e.reply('list:deleteTask', data.id)
             w.reload()
@@ -186,6 +191,11 @@ ipcMain.on('task:update', (e, data) => {
 
 ipcMain.on('task:update:u', (e, data) => {
   console.log(data)
+  const notifModify = new Notification({
+    title: 'Task modified',
+    body: 'The task has been modified'
+  })
+  notifModify.show()
   tasks.updateTask(data).then((res) => {
     console.log(res)
     updateKanban.close()
